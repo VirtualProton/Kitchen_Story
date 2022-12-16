@@ -1,0 +1,97 @@
+<div class="container-fluid">
+    <div class="container-xl">
+        <div class="row mt-5 mb-5">
+            <div class="col-md-12">
+                <button class="btn btn btn-outline-success" (click)="navigateBack()" style="float:left"><i class="bi bi-arrow-left"></i></button>
+                <button class="btn btn-success" (click)="openFrom('add','',mymodalproductdetails)" style="float:right;">Add Product</button>
+                <input type="text" class="form-control w-25" style="margin-right:10px; float: right;"
+                name="search"[(ngModel)]="searchText" placeholder="Search">     
+            </div>
+        </div>
+        <table class="table text-center table-sm table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Price ₹</th>
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of product_details">
+                    <th><img [src]="product.img" alt="product_image"></th>
+                    <th>{{product.name}}</th>
+                    <th>{{product.category}}</th>
+                    <th>{{product.type}}</th>
+                    <th>{{product.price}}</th>
+                    <th><button class="btn btn-primary" (click)="openFrom('edit',product,mymodalproductdetails)">Edit</button></th>
+                    <th><button class="btn btn-danger"(click)="deleteProduct(product)">Delete</button></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #mymodalproductdetails let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" *ngIf="editFormFlag == false">Add Product</h4>
+        <h4 class="modal-title" id="modal-basic-title" *ngIf="editFormFlag == true">Edit Product</h4>
+        <button type="button" class="close" aria-label="Close"(click)="closeModal()">
+            <span>X</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <form [formGroup]="ProductDetailsForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="">Product Name <span class="text-errror"><sup class="required">*</sup></span></label>
+                    <input type="text" formControlName="name" required class="form-control mb-2">
+                    <div class="error-block text-danger mb-1" *ngIf="f.name?.errors?.required && f.name?.dirty">
+                        Product Name Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Category <span class="text-errror"><sup class="required">*</sup></span></label>
+                    <input type="text" formControlName="category" required class="form-control mb-2">
+                    <div class="error-block text-danger mb-1" *ngIf="f.category?.errors?.required && f.category?.dirty">
+                        Category Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Type <span class="text-errror"><sup class="required">*</sup></span></label>
+                    <input type="text" formControlName="type" required class="form-control mb-2">
+                    <div class="error-block text-danger mb-1" *ngIf="f.type?.errors?.required && f.type?.dirty">
+                        Type Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Price <span class="text-errror"><sup class="required">*</sup></span></label>
+                    <input type="number" formControlName="price" required class="form-control mb-2">
+                    <div class="error-block text-danger mb-1" *ngIf="f.price?.errors?.required && f.price?.dirty">
+                        Price Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="img">Upload Image <span class="text-errror"><sup class="required">*</sup></span></label>
+                    <input type="file" accept="image/*" id="file" name="file" class="form-control mb-2" (change)="onselectfile($event)" style="float: left;width:78%;"#file>
+                    <button class="btn btn-success" (click)="uploadFlie()" style="float: right;"><i class="bi bi-cloud-arrow-up"></i> Upload</button>
+                    <div>
+                        <img [src]="img" alt="">
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="submit" [disabled]="!ProductDetailsForm.valid" (click)="addProductDetails($event)"  *ngIf="editFormFlag == false">Submit</button>
+        <button class="btn btn-primary btn-sm" type="submit" [disabled]="!ProductDetailsForm.valid" (click)="updateProductDetails($event)" *ngIf="editFormFlag == true">Update</button>
+        
+    </div>
+</ng-template>

@@ -1,0 +1,39 @@
+<div class="container-xl">
+    <div class="row mt-5 mb-5">
+        <div class="col m-auto" *ngFor="let product of productList"  >
+            <div class="card border mt-5" style="width:18rem;">
+                <img [src]="product.img" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                </div>
+                <div class="row mx-3 ms-1">
+                    <div class="col">
+                        <p>{{product.category}}</p>
+                    </div>
+                    <div class="col">
+                        <div class="col">
+                            <p>{{product.type}}</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mx-3 ms-1">
+                    <div class="col ">
+                        <p>Rating</p>
+                    </div>
+                    <div class="col ">
+                        <ngb-rating [max]="5" [rate]="4" [readonly]=true>Rating</ngb-rating>
+                    </div>
+                </div>
+                <div class="row mx-3 ms-1">
+                    <div class="col">
+                        <p class="bold">Rs. {{product.price}}</p>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary btn-sm" (click)="addToCart(product)">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
